@@ -1,3 +1,5 @@
+import React, { useEffect, useState } from 'react';
+
 const skills = ['HTML', 'CSS', 'JavaScript', 'Tailwind CSS', 'Figma', 'GitHub', 'Vercel', 'React'];
 
 const projects = [
@@ -21,49 +23,121 @@ const projects = [
   },
 ];
 
+const translations = {
+  uz: {
+    nav: { about: "Men haqimda", skills: "Ko'nikmalar", projects: "Loyihalar", contact: "Bog'lanish" },
+    hero: { badge: 'Frontend dasturchi', hello: 'Salom, men Abdullayev Imronbekman.', intro: "Men 12 yoshda, Mars IT da o'qiyapman. Hozirda React bilan ishlashni o'rganib, chiroyli va interaktiv web ilovalar yarataman." },
+    buttons: { projects: "Loyihalarim", contact: "Bog'lanish" },
+    about: { title: "Yoshligimdan tortib web texnologiyalarni o'rganmoqdaman.", body: "Men Mars IT da 1 yil davomida ta'lim oldim. Hozirda frontend sohasida HTML, CSS, JavaScript, Tailwind CSS, React va dizayn vositalarini o'rganib boraman. Mening maqsadim - foydalanuvchi uchun qulay va chiroyli interfeyslarni yaratish." },
+    skills: { title: "Qaysi texnologiyalar bilan ishlayman" },
+    projects: { title: "Yaqinda yaratgan ishlarim", view: "Ko'rish →" },
+    education: { title: "Mars IT da o'qish tajribasi" },
+    contact: { title: "Bog'lanish", emailLabel: 'Email' },
+  },
+  en: {
+    nav: { about: 'About', skills: 'Skills', projects: 'Projects', contact: 'Contact' },
+    hero: { badge: 'Frontend Developer', hello: "Hi, I'm Abdullayev Imronbek.", intro: "I'm 12 years old and studying at Mars IT. I'm learning React and building beautiful, interactive web apps." },
+    buttons: { projects: 'My projects', contact: 'Contact me' },
+    about: { title: 'Learning web technologies since childhood.', body: "I studied at Mars IT for 1 year. Currently learning HTML, CSS, JavaScript, Tailwind CSS, React and design tools. My goal is to create user-friendly and beautiful interfaces." },
+    skills: { title: 'Technologies I work with' },
+    projects: { title: 'Recent works', view: 'View →' },
+    education: { title: 'Experience at Mars IT' },
+    contact: { title: 'Contact', emailLabel: 'Email' },
+  },
+  ru: {
+    nav: { about: 'Обо мне', skills: 'Навыки', projects: 'Проекты', contact: 'Контакты' },
+    hero: { badge: 'Frontend разработчик', hello: 'Привет, я Абдуллаев Имронбек.', intro: 'Мне 12 лет, я учусь в Mars IT. Я изучаю React и создаю красивые интерактивные веб-приложения.' },
+    buttons: { projects: 'Мои проекты', contact: 'Связаться' },
+    about: { title: 'Изучаю веб-технологии с детства.', body: 'Я учился в Mars IT 1 год. Сейчас изучаю HTML, CSS, JavaScript, Tailwind CSS, React и инструменты дизайна. Моя цель — создавать удобные и красивые интерфейсы.' },
+    skills: { title: 'Технологии, с которыми я работаю' },
+    projects: { title: 'Недавние работы', view: 'Посмотреть →' },
+    education: { title: 'Опыт обучения в Mars IT' },
+    contact: { title: 'Контакты', emailLabel: 'Email' },
+  },
+};
+
 function App() {
+  const [lang, setLang] = useState(() => localStorage.getItem('lang') || 'uz');
+  const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'dark');
+
+  useEffect(() => {
+    localStorage.setItem('lang', lang);
+  }, [lang]);
+
+  useEffect(() => {
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const t = (path) => {
+    const parts = path.split('.');
+    let cur = translations[lang] || translations.uz;
+    for (const p of parts) cur = cur?.[p];
+    return cur ?? path;
+  };
+
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100">
+    <div className={`min-h-screen ${theme === 'dark' ? 'bg-slate-950 text-slate-100' : 'bg-white text-slate-900'}`}>
       <header className="relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(91,140,255,0.28),transparent_35%)]" />
         <nav className="relative mx-auto flex w-full max-w-7xl items-center justify-between px-4 py-6 sm:px-6 lg:px-8">
-          <a className="text-lg font-black tracking-[0.2em] text-white" href="#top">
+          <a className="text-lg font-black tracking-[0.2em]" href="#top">
             IMRONBEK
           </a>
-          <div className="flex flex-wrap items-center gap-4 text-sm text-slate-300">
-            <a className="transition hover:text-white" href="#about">
-              Men haqimda
-            </a>
-            <a className="transition hover:text-white" href="#skills">
-              Ko&apos;nikmalar
-            </a>
-            <a className="transition hover:text-white" href="#projects">
-              Loyihalar
-            </a>
-            <a className="transition hover:text-white" href="#contact">
-              Bog&apos;lanish
-            </a>
+          <div className="flex items-center gap-4 text-sm">
+            <div className="flex flex-wrap items-center gap-4 text-sm">
+              <a className="transition hover:opacity-90" href="#about">
+                {t('nav.about')}
+              </a>
+              <a className="transition hover:opacity-90" href="#skills">
+                {t('nav.skills')}
+              </a>
+              <a className="transition hover:opacity-90" href="#projects">
+                {t('nav.projects')}
+              </a>
+              <a className="transition hover:opacity-90" href="#contact">
+                {t('nav.contact')}
+              </a>
+            </div>
+            <div className="flex items-center gap-3">
+              <select
+                aria-label="Language"
+                value={lang}
+                onChange={(e) => setLang(e.target.value)}
+                className={`rounded border border-white/10 bg-white/5 px-2 py-1 text-sm ${theme === 'dark' ? 'text-white focus:text-slate-900' : 'text-slate-900 focus:text-white'}`}
+              >
+                <option value="uz">UZ</option>
+                <option value="en">EN</option>
+                <option value="ru">RU</option>
+              </select>
+
+              <button
+                onClick={() => setTheme((s) => (s === 'dark' ? 'light' : 'dark'))}
+                aria-label="Toggle theme"
+                className="rounded bg-white/5 px-3 py-1 text-sm text-slate-200"
+              >
+                {theme === 'dark' ? '🌙' : '🔆'}
+              </button>
+            </div>
           </div>
         </nav>
 
         <div className="relative mx-auto grid w-full max-w-7xl gap-8 px-4 py-12 sm:px-6 lg:grid-cols-[1.2fr_0.8fr] lg:px-8 lg:py-20">
           <div className="max-w-2xl">
             <p className="mb-4 inline-block rounded-full border border-cyan-400/30 bg-cyan-400/10 px-3 py-1 text-sm font-semibold uppercase tracking-[0.3em] text-cyan-300">
-              Frontend dasturchi
+              {t('hero.badge')}
             </p>
             <h1 className="text-4xl font-black leading-tight sm:text-5xl lg:text-6xl">
-              Salom, men Abdullayev Imronbekman.
+              {t('hero.hello')}
             </h1>
             <p className="mt-5 max-w-xl text-lg text-slate-300 sm:text-xl">
-              Men 12 yoshda, Mars IT da o&apos;qiyapman. Hozirda React bilan ishlashni o&apos;rganib,
-              chiroyli va interaktiv web ilovalar yarataman.
+              {t('hero.intro')}
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
               <a className="rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-5 py-3 font-semibold text-white shadow-lg shadow-cyan-500/20 transition hover:-translate-y-1" href="#projects">
-                Loyihalarim
+                {t('buttons.projects')}
               </a>
               <a className="rounded-full border border-white/10 bg-white/5 px-5 py-3 font-semibold text-slate-200 transition hover:-translate-y-1" href="#contact">
-                Bog&apos;lanish
+                {t('buttons.contact')}
               </a>
             </div>
           </div>
@@ -83,15 +157,13 @@ function App() {
           <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
             <div>
               <p className="mb-4 inline-block text-sm font-semibold uppercase tracking-[0.3em] text-cyan-300">
-                Men haqimda
+                {t('nav.about')}
               </p>
               <h2 className="text-3xl font-bold text-white sm:text-4xl">
-                Yoshligimdan tortib web texnologiyalarni o&apos;rganmoqdaman.
+                {t('about.title')}
               </h2>
               <p className="mt-5 max-w-2xl text-lg text-slate-300">
-                Men Mars IT da 1 yil davomida ta&apos;lim oldim. Hozirda frontend sohasida HTML, CSS,
-                JavaScript, Tailwind CSS, React va dizayn vositalarini o&apos;rganib boraman. Mening
-                maqsadim - foydalanuvchi uchun qulay va chiroyli interfeyslarni yaratish.
+                {t('about.body')}
               </p>
             </div>
             <div className="rounded-3xl border border-white/10 bg-slate-900/70 p-4 shadow-xl shadow-slate-950/30">
@@ -108,10 +180,10 @@ function App() {
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="mb-10">
               <p className="mb-4 inline-block text-sm font-semibold uppercase tracking-[0.3em] text-cyan-300">
-                Ko&apos;nikmalar
+                {t('nav.skills')}
               </p>
               <h2 className="text-3xl font-bold text-white sm:text-4xl">
-                Qaysi texnologiyalar bilan ishlayman
+                {t('skills.title')}
               </h2>
             </div>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -127,10 +199,10 @@ function App() {
         <section id="projects" className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
           <div className="mb-10">
             <p className="mb-4 inline-block text-sm font-semibold uppercase tracking-[0.3em] text-cyan-300">
-              Loyihalar
+              {t('nav.projects')}
             </p>
             <h2 className="text-3xl font-bold text-white sm:text-4xl">
-              Yaqinda yaratgan ishlarim
+              {t('projects.title')}
             </h2>
           </div>
           <div className="grid gap-6 lg:grid-cols-3">
@@ -141,7 +213,7 @@ function App() {
                   <h3 className="text-xl font-bold text-white">{project.title}</h3>
                   <p className="mt-3 flex-1 text-slate-300">{project.description}</p>
                   <a className="mt-5 inline-flex text-cyan-300 transition hover:text-cyan-200" href={project.link} target="_blank" rel="noreferrer">
-                    Ko&apos;rish →
+                    {t('projects.view')}
                   </a>
                 </div>
               </article>
@@ -153,10 +225,10 @@ function App() {
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="mb-8">
               <p className="mb-4 inline-block text-sm font-semibold uppercase tracking-[0.3em] text-cyan-300">
-                Ta&apos;lim
+                {t('education.title')}
               </p>
               <h2 className="text-3xl font-bold text-white sm:text-4xl">
-                Mars IT da o&apos;qish tajribasi
+                {t('education.title')}
               </h2>
             </div>
             <div className="rounded-3xl border border-white/10 bg-white/5 p-8 text-lg text-slate-300 shadow-xl shadow-slate-950/20">
@@ -170,11 +242,11 @@ function App() {
       <footer id="contact" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-6 rounded-3xl border border-white/10 bg-white/5 p-8 shadow-xl shadow-slate-950/20 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h3 className="text-xl font-bold text-white">Bog&apos;lanish</h3>
-            <p className="mt-2 text-slate-300">Email: veryicewolves@gmail.com</p>
+            <h3 className="text-xl font-bold text-white">{t('contact.title')}</h3>
+            <p className="mt-2 text-slate-300">{t('contact.emailLabel')}: veryicewolves@gmail.com</p>
           </div>
           <a className="rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-5 py-3 font-semibold text-white transition hover:-translate-y-1" href="mailto:veryicewolves@gmail.com">
-            Xabar yuborish
+            {t('buttons.contact')}
           </a>
         </div>
       </footer>
