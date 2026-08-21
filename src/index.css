@@ -33,3 +33,26 @@ body {
 #root {
   min-height: 100vh;
 }
+
+.theme-light .text-white {
+  color: #0f172a;
+}
+
+.theme-light .text-slate-100,
+.theme-light .text-slate-200,
+.theme-light .text-slate-300 {
+  color: #475569;
+}
+
+.theme-light .bg-slate-900\/60,
+.theme-light .bg-slate-900\/70 {
+  background-color: #f8fafc;
+}
+
+.theme-light .bg-white\/5 {
+  background-color: rgba(15, 23, 42, 0.04);
+}
+
+.theme-light .border-white\/10 {
+  border-color: rgba(15, 23, 42, 0.12);
+}

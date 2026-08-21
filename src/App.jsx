@@ -33,7 +33,7 @@ const translations = {
     about: { title: "Yoshligimdan tortib web texnologiyalarni o'rganmoqdaman.", body: "Men Mars IT da 1 yil davomida ta'lim oldim. Hozirda frontend sohasida HTML, CSS, JavaScript, Tailwind CSS, React va dizayn vositalarini o'rganib boraman. Mening maqsadim - foydalanuvchi uchun qulay va chiroyli interfeyslarni yaratish." },
     skills: { title: "Qaysi texnologiyalar bilan ishlayman" },
     projects: { title: "Yaqinda yaratgan ishlarim", view: "Ko'rish →" },
-    education: { title: "Mars IT da o'qish tajribasi" },
+    education: { title: "Mars IT da o'qish tajribasi", body: "Men Mars ITda ta'lim olayapman. Bu yerda frontend yo'nalishi bo'yicha HTML, CSS, JavaScript, React va dizayn asoslarini o'rganayapman." },
     contact: { title: "Bog'lanish", emailLabel: 'Email' },
   },
   en: {
@@ -43,7 +43,7 @@ const translations = {
     about: { title: 'Learning web technologies since childhood.', body: "I studied at Mars IT for 1 year. Currently learning HTML, CSS, JavaScript, Tailwind CSS, React and design tools. My goal is to create user-friendly and beautiful interfaces." },
     skills: { title: 'Technologies I work with' },
     projects: { title: 'Recent works', view: 'View →' },
-    education: { title: 'Experience at Mars IT' },
+    education: { title: 'Experience at Mars IT', body: 'I am studying at Mars IT, where I am learning HTML, CSS, JavaScript, React and the fundamentals of design in the frontend track.' },
     contact: { title: 'Contact', emailLabel: 'Email' },
   },
   ru: {
@@ -53,7 +53,7 @@ const translations = {
     about: { title: 'Изучаю веб-технологии с детства.', body: 'Я учился в Mars IT 1 год. Сейчас изучаю HTML, CSS, JavaScript, Tailwind CSS, React и инструменты дизайна. Моя цель — создавать удобные и красивые интерфейсы.' },
     skills: { title: 'Технологии, с которыми я работаю' },
     projects: { title: 'Недавние работы', view: 'Посмотреть →' },
-    education: { title: 'Опыт обучения в Mars IT' },
+    education: { title: 'Опыт обучения в Mars IT', body: 'Я учусь в Mars IT, где изучаю HTML, CSS, JavaScript, React и основы дизайна в направлении frontend.' },
     contact: { title: 'Контакты', emailLabel: 'Email' },
   },
 };
@@ -70,6 +70,10 @@ function App() {
     localStorage.setItem('theme', theme);
   }, [theme]);
 
+  useEffect(() => {
+    document.documentElement.lang = lang;
+  }, [lang]);
+
   const t = (path) => {
     const parts = path.split('.');
     let cur = translations[lang] || translations.uz;
@@ -78,7 +82,7 @@ function App() {
   };
 
   return (
-    <div className={`min-h-screen ${theme === 'dark' ? 'bg-slate-950 text-slate-100' : 'bg-white text-slate-900'}`}>
+    <div id="top" className={`min-h-screen ${theme === 'dark' ? 'bg-slate-950 text-slate-100' : 'theme-light bg-white text-slate-900'}`}>
       <header className="relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(91,140,255,0.28),transparent_35%)]" />
         <nav className="relative mx-auto flex w-full max-w-7xl items-center justify-between px-4 py-6 sm:px-6 lg:px-8">
@@ -115,6 +119,8 @@ function App() {
               <button
                 onClick={() => setTheme((s) => (s === 'dark' ? 'light' : 'dark'))}
                 aria-label="Toggle theme"
+                aria-pressed={theme === 'light'}
+                title="Toggle theme"
                 className="rounded bg-white/5 px-3 py-1 text-sm text-slate-200"
               >
                 {theme === 'dark' ? '🌙' : '🔆'}
@@ -234,8 +240,7 @@ function App() {
               </h2>
             </div>
             <div className="rounded-3xl border border-white/10 bg-white/5 p-8 text-lg text-slate-300 shadow-xl shadow-slate-950/20">
-              Men Mars ITda ta&apos;lim olayapman. Bu yerda frontend yo&apos;nalishi bo&apos;yicha HTML,
-              CSS, JavaScript, React va dizayn asoslarini o&apos;rganayapman.
+              {t('education.body')}
             </div>
           </div>
         </section>
