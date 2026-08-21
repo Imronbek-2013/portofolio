@@ -43,7 +43,7 @@ const translations = {
     about: { title: 'Learning web technologies since childhood.', body: "I studied at Mars IT for 1 year. Currently learning HTML, CSS, JavaScript, Tailwind CSS, React and design tools. My goal is to create user-friendly and beautiful interfaces." },
     skills: { title: 'Technologies I work with' },
     projects: { title: 'Recent works', view: 'View →' },
-    education: { title: 'Experience at Mars IT', body: 'I am studying at Mars IT, where I am learning HTML, CSS, JavaScript, React and the fundamentals of design in the frontend track.' },
+      education: { title: 'Experience at Mars IT', body: 'I am studying at Mars IT, where I am learning HTML, CSS, JavaScript, React and the fundamentals of design in the frontend track.' },
     contact: { title: 'Contact', emailLabel: 'Email' },
   },
   ru: {
