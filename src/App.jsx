@@ -23,6 +23,8 @@ const projects = [
   },
 ];
 
+const EMAIL = 'veryicewolves@gmail.com';
+
 const translations = {
   uz: {
     nav: { about: "Men haqimda", skills: "Ko'nikmalar", projects: "Loyihalar", contact: "Bog'lanish" },
@@ -136,7 +138,7 @@ function App() {
               <a className="rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-5 py-3 font-semibold text-white shadow-lg shadow-cyan-500/20 transition hover:-translate-y-1" href="#projects">
                 {t('buttons.projects')}
               </a>
-              <a className="rounded-full border border-white/10 bg-white/5 px-5 py-3 font-semibold text-slate-200 transition hover:-translate-y-1" href="#contact">
+              <a className="rounded-full border border-white/10 bg-white/5 px-5 py-3 font-semibold text-slate-200 transition hover:-translate-y-1" href={`mailto:${EMAIL}`}>
                 {t('buttons.contact')}
               </a>
             </div>
@@ -239,13 +241,13 @@ function App() {
         </section>
       </main>
 
-      <footer id="contact" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+      <footer id="contact" className="mx-auto max-w-7xl scroll-mt-24 px-4 py-16 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-6 rounded-3xl border border-white/10 bg-white/5 p-8 shadow-xl shadow-slate-950/20 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h3 className="text-xl font-bold text-white">{t('contact.title')}</h3>
-            <p className="mt-2 text-slate-300">{t('contact.emailLabel')}: veryicewolves@gmail.com</p>
+            <p className="mt-2 text-slate-300">{t('contact.emailLabel')}: {EMAIL}</p>
           </div>
-          <a className="rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-5 py-3 font-semibold text-white transition hover:-translate-y-1" href="mailto:veryicewolves@gmail.com">
+          <a className="rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-5 py-3 font-semibold text-white transition hover:-translate-y-1" href={`mailto:${EMAIL}`}>
             {t('buttons.contact')}
           </a>
         </div>
